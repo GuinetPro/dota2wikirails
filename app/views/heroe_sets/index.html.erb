@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Sets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Active</th>
+      <th>Heroe</th>
+      <th>Cost</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @heroe_sets.each do |heroe_set| %>
+      <tr>
+        <td><%= heroe_set.title %></td>
+        <td><%= heroe_set.description %></td>
+        <td><%= heroe_set.active %></td>
+        <td><%= heroe_set.heroe %></td>
+        <td><%= heroe_set.cost %></td>
+        <td><%= link_to 'Show', heroe_set %></td>
+        <td><%= link_to 'Edit', edit_heroe_set_path(heroe_set) %></td>
+        <td><%= link_to 'Destroy', heroe_set, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+

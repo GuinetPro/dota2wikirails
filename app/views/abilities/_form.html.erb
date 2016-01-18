@@ -1,0 +1,57 @@
+<!--<form ng-submit="saveSkill()">-->
+<form >
+
+
+
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="errors.length">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+  <p ng-repeat="error in errors">
+     <strong>Warning!</strong>{{error}}
+  </p>
+
+</div>
+
+
+  <div class="field">
+    <label for="ability_name">Nombre</label><br>
+    <input ng-model="skill.name" type="text" >
+
+  </div>
+  <div class="field">
+    <label for="ability_description">Descripsion</label><br>
+      <textarea ng-model="skill.description"></textarea>
+  </div>
+
+
+  <div class="field">
+    <label for="ability_image">Image</label><br>
+     <input type="file" nv-file-select uploader="uploader" ng-model="skill.Newimage"/><br/>
+
+  </div>
+
+
+    <div class="field" ng-repeat="item in uploader.queue" ng-hide="edit">
+          Name: <span ng-bind="item.file.name"></span><br/>
+          <button ng-click="item.upload()" class="btn btn-info">Ingresar</button>
+    </div>
+
+
+
+   <div class="actions" ng-show="edit">
+    <p>Imagen Actual</p>
+    <img ng-src="{{ skill.image }}"  ng-show="skill.image != null" class="media-object">
+    <button ng-click="Edit(skill)" class="btn btn-info">Editar</button>
+    <button ng-click="reset();cleanUpload()"  class="btn btn-info"/>Reset</button>
+    <br/>
+
+    <div class="field" ng-repeat="item in uploader.queue">
+          Name: <span ng-bind="item.file.name"></span><br/>
+          <button ng-click="item.uploadEdit()" class="btn btn-info">Editar</button>
+          <button ng-click="reset();cleanUpload()"  class="btn btn-info"/>Reset</button>
+    </div>
+
+  </div>
+
+
+</form>

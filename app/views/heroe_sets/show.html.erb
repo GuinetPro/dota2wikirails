@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @heroe_set.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @heroe_set.description %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @heroe_set.active %>
+</p>
+
+<p>
+  <strong>Heroe:</strong>
+  <%= @heroe_set.heroe %>
+</p>
+
+<p>
+  <strong>Cost:</strong>
+  <%= @heroe_set.cost %>
+</p>
+
+<%= link_to 'Edit', edit_heroe_set_path(@heroe_set) %> |
+<%= link_to 'Back', heroe_sets_path %>

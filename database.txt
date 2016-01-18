@@ -1,0 +1,126 @@
+
+Aplicacion red social dota
+
+- Ver description d elos heroes
+- Crear tus build
+- Seguir a una persona y alli saber si cambio su build o subio otra
+- Darle me gusta a una build del usuario y escribir un comentario
+- ver sets de heroes y comprarlos
+- escribir comentarios sobre el set del hereo
+
+
+Heroe {
+    name:string,
+    description:text,
+    active:tinyint,
+    image: atachement,
+    video:string,
+    attribute:references
+}
+
+
+Ability{
+
+    name:string,
+    description:text,
+    active:tinyint,
+    image: atachement,
+    video:string,
+    heroe:references
+}
+
+HeroeRole{
+
+    heroe:references,
+    rol:references
+}
+
+Rol{ tanque, melle, iniciador, jungla
+
+    name:string,
+    image:atachement
+    description:text
+}
+
+Attribute{ fuerza-inteligencia-agilidad
+
+    name:String
+    image:atachement
+    description:text
+}
+
+Build{
+
+    name:
+    description:text
+    heroe:references
+    user:references
+
+
+}
+
+CommentBuild{
+
+    user:references,
+    build:references,
+    body:text
+}
+
+BuildIem{
+
+    build:references
+    items:references
+
+}
+
+Items{
+
+
+    name:
+    description
+    image
+
+}
+
+
+User{
+
+
+}
+
+HeroeSet{
+
+    name
+    hereo:references,
+    description
+    rarity
+    realese_date
+    cost
+
+}
+
+
+CommentHeroeSet{
+
+    user:references,
+    HeroeSet:references,
+    body:text
+}
+
+
+PhotoHeroeSet{
+
+    heroeset:references
+    image
+}
+
+UserHeroeSet{
+
+    user:references
+    heroeset:references
+    date_build
+    code
+
+}
+
+

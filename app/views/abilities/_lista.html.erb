@@ -1,0 +1,23 @@
+<ul class="list-group">
+    <li class="list-group-item" ng-repeat="hab in habilidades.habilidades">
+
+        <div class="media">
+            <div class="media-left">
+              <img ng-src="{{ hab.thumb_url}}" class="media-object">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{ hab.name}}</h4>
+                 {{ hab.description}}
+             </div>
+              <div class="form-group">
+
+                <!-- Deemphasize a button by making it look like a link while maintaining button behavior -->
+                <button type="button" class="btn btn-warning" ng-click="editForm(hab)">Editar</button>
+
+                <!-- Indicates a dangerous or potentially negative action -->
+                <button type="button" class="btn btn-danger" ng-click="Eliminar(hab);cleanUpload()">Eliminar</button>
+
+              </div>
+        </div>
+   </li>
+</ul>

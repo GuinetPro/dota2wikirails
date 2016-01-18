@@ -1,0 +1,102 @@
+
+
+
+<div ng-app="appEditForm">
+
+
+  <div ng-controller="mainController">
+    <%= form_for([@heroe,@heroe_set]) do |f| %>
+  <% if @heroe_set.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@heroe_set.errors.count, "error") %> prohibited this heroe_set from being saved:</h2>
+
+      <ul>
+      <% @heroe_set.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= f.label :rarity %><br>
+    <%= f.text_field :rarity %>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :active %><br>
+    <%= f.check_box :active %>
+  </div>
+  <div class="field">
+    <%= f.label :heroe_id %><br>
+    <%= f.text_field :heroe_id %>
+  </div>
+  <div class="field">
+    <%= f.label :cost %><br>
+    <%= f.text_field :cost %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<h1>Welcome</h2>
+<div ng-controller="mainController">
+  <label>Single Upload</label>
+  <input type="file" ng-file-select="onFileSelect($files)"/><br/>
+  <label>Multiple Upload</label>
+  <input type="file" ng-file-select="onFileSelect($files)" multiple accept="image/*"/>
+
+  <div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported"> Drop file not supported </div>
+</div>
+
+
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  angular.module("appEditForm",["ngResource", "ng-rails-csrf","angularFileUpload"])
+
+  .factory("Heroes",function($resource){
+
+     return $resource("/heroes/<%= @heroe.id %>/abilities.json", {},{
+       get: { method: 'GET'},
+       create: { method: 'POST',url :"/heroes/<%= @heroe.id %>/abilities"},
+       delete: { method: 'DELETE',url :"/heroes/<%= @heroe.id %>/abilities/:id", params: {id: '@id'}},
+       update: { method: 'PUT',url :"/heroes/<%= @heroe.id %>/abilities/:id", params: {id: '@id'}}
+
+     })
+  })
+
+  .controller("mainController", function($scope, FileUploader){
+
+
+      $scope.onFileSelect = function($files){
+        for (var i =0; i<$files.length; i++){
+          var file = $files[i];
+
+          $scope.upload = $upload.upload({
+            url:'images/',
+            data: {},
+            file: file
+          }).success(function(){
+            alert("finished!");
+          });
+        };
+      };
+});
+
+
+</script>

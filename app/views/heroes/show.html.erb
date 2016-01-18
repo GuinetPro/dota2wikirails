@@ -1,0 +1,61 @@
+<br>
+<br>
+<ul id="myTabs" class="nav nav-tabs" role="tablist"> <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Home</a></li> <li role="presentation" class=""><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Profile</a></li> <li role="presentation" class="dropdown"> <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents" aria-expanded="false">Dropdown <span class="caret"></span></a> <ul class="dropdown-menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents"> <li class=""><a href="#dropdown1" role="tab" id="dropdown1-tab" data-toggle="tab" aria-controls="dropdown1" aria-expanded="false">@fat</a></li> <li class=""><a href="#dropdown2" role="tab" id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2" aria-expanded="false">@mdo</a></li> </ul> </li> </ul>
+
+
+<div class="row">
+
+
+  <div class="col-md-8">
+
+    <p id="notice"><%= notice %></p>
+
+
+    <p>
+      <strong>Description:</strong>
+      <%= @heroe.description %>
+    </p>
+
+    <% @heroe.ability.each do |ab| %>
+    <div class="panel panel-default">
+      <div class="panel-heading"><%= ab.name %></div>
+      <div class="panel-body">
+
+        <div class="media">
+          <div class="media-left">
+
+              <%= image_tag ab.image.url(:mini), class:"media-object"  %>
+
+          </div>
+          <div class="media-body">
+            <p><%= ab.description %></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <% end %>
+
+  </div>
+
+  <div class="col-md-4">
+
+    <div class="panel panel-default">
+      <div class="panel-heading"><%= @heroe.name %></div>
+      <div class="panel-body">
+
+        <div class="media">
+          <div class="media-left">
+               <%= image_tag @heroe.image.url(:medium) %>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+

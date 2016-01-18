@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<div class="row">
+
+  <% @heroes.each do |hero| %>
+
+    <div class="col-xs-2 col-md-2">
+
+        <% if user_signed_in? %>
+            <%=link_to( image_tag(hero.image.url(:medium)), edit_hero_path(hero), :class=>"thumbnail") %>
+        <% else %>
+
+            <%=link_to( image_tag(hero.image.url(:medium)), hero_path(hero), :class=>"thumbnail") %>
+        <% end %>
+
+    </div>
+
+  <% end %>
+
+</div>
+
+
+<br>
+
+    <% if user_signed_in? %>
+        <%= link_to 'New Heroe', new_hero_path, :class=>"btn btn-success" %>
+    <% end %>
+

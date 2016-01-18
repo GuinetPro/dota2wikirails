@@ -1,0 +1,203 @@
+<br>
+<nav class="navbar navbar-inverse">
+
+<div class="row">
+
+<div class="row">
+  <div class="col-md-3 col-md-offset-5">
+      <h1 style="color:#fff"><%= @heroe.name %></h1>
+  </div>
+</div>
+
+
+  <div class="col-md-4 col-md-offset-4">
+
+  </div>
+</div>
+
+</nav>
+
+
+<div class="row" ng-app="appEditForm">
+
+  <div class="col-md-12">
+
+    <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+
+        <ul id="myTabs" class="nav nav-tabs" role="tablist">
+
+          <li role="presentation" class="active">
+            <a href="#info" id="info-tab" role="tab" data-toggle="tab" aria-controls="info" aria-expanded="true">Informacion General</a>
+          </li>
+
+          <li role="presentation" class="">
+            <a href="#habilidad" role="tab" id="habilidad-tab" data-toggle="tab" aria-controls="habilidad" aria-expanded="false">Habilidades</a>
+          </li>
+
+          <li role="presentation" class="">
+            <a href="#sets" role="tab" id="sets-tab" data-toggle="tab" aria-controls="sets" aria-expanded="false">Sets</a>
+          </li>
+
+        </ul>
+
+        <div id="myTabContent" class="tab-content">
+
+          <div role="tabpanel" class="tab-pane fade active in" id="info" aria-labelledby="info-tab">
+            <%= render 'form' %>
+          </div>
+
+          <div role="tabpanel" class="tab-pane fade" id="habilidad" aria-labelledby="habilidad-tab" ng-controller="habilidadesCtrl">
+
+              <div class="row">
+
+                <div class="col-md-8">
+                    <%= render 'abilities/lista' %>
+                </div>
+
+                <div class="col-md-4">
+                    <%= render 'abilities/form' %>
+                </div>
+
+              </div>
+
+          </div>
+
+          <div role="tabpanel" class="tab-pane fade" id="sets" aria-labelledby="sets-tab">
+
+          </div>
+
+    </div>
+  </div>
+
+
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+
+angular.module("appEditForm",["ngResource", "ng-rails-csrf","angularFileUpload"])
+
+  .factory("Heroes",function($resource){
+
+     return $resource("/heroes/<%= @heroe.id %>/abilities.json", {},{
+       get: { method: 'GET'},
+       create: { method: 'POST',url :"/heroes/<%= @heroe.id %>/abilities"},
+       delete: { method: 'DELETE',url :"/heroes/<%= @heroe.id %>/abilities/:id", params: {id: '@id'}},
+       update: { method: 'PUT',url :"/heroes/<%= @heroe.id %>/abilities/:id", params: {id: '@id'}}
+
+     })
+  })
+
+  .controller("habilidadesCtrl",function($scope,Heroes, FileUploader){
+
+      $scope.reset = function(){
+
+          $scope.habilidades  = {};
+          $scope.skill        = {};
+          $scope.errors       = [];
+          $scope.habilidades  = Heroes.get();
+          $scope.edit   = false;
+
+      }
+
+
+      $scope.edit   = false;
+      $scope.url = "/heroes/<%= @heroe.id %>/abilities";
+      $scope.reset();
+
+
+      var upload  = $scope.uploader = new FileUploader({
+
+            url: $scope.url,
+            formData:[],
+            removeAfterUpload: true,
+            onBeforeUploadItem: function (item){
+
+
+            $scope.url = ( $scope.edit  ) ? "/heroes/<%= @heroe.id %>/abilities/$scope.skill.id": $scope.url;
+
+              item.formData.push({ name:$scope.skill.name ,
+                                     description :$scope.skill.description,
+                                     authenticity_token :"<%= form_authenticity_token  %>"
+                                });
+            },
+            onSuccessItem: function (item,response,status,headers){
+
+                $scope.reset();
+
+
+            }
+
+
+        });
+
+      $scope.cleanUpload = function (){
+
+        upload.clearQueue();
+      }
+
+
+      $scope.editForm= function(habilidad){
+
+        $scope.edit   = true;
+
+        $scope.skill = {
+
+            name : habilidad.name,
+            id : habilidad.id,
+            description : habilidad.description,
+            image :habilidad.image_url
+        };
+
+      }
+
+      $scope.Eliminar= function(habilidad){
+
+         $scope.edit   = false;
+
+          Heroes.delete({id: habilidad.id}, function(data){
+
+              if( data.success ){
+                alert(data.success);
+              }else{
+                alert(errors);
+              }
+
+              $scope.reset();
+
+          }, function(error){
+            $scope.errors.push(error.data.errors);
+            $scope.reset();
+          });
+
+      }
+
+      $scope.Edit= function(habilidad){
+
+         $scope.edit   = false;
+
+          Heroes.update({ name : habilidad.name,
+                          id : habilidad.id,
+                          description : habilidad.description,
+
+             }, function(data){
+
+              $scope.reset();
+
+          }, function(error){
+            $scope.errors.push(error.data.errors);
+            $scope.reset();
+          });
+
+      }
+
+
+
+  });
+
+
+
+</script>
